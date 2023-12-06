@@ -1,0 +1,18 @@
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:37:18:virtual void touchgfx::Presenter::activate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:47:18:virtual void touchgfx::Presenter::deactivate()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:52:13:virtual touchgfx::Presenter::~Presenter()	1
+../Middlewares/ST/touchgfx/framework/include/mvp/Presenter.hpp:58:5:touchgfx::Presenter::Presenter()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:9:5:ModelListener::ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:11:13:virtual ModelListener::~ModelListener()	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:17:18:virtual void ModelListener::setPressure(int)	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:18:18:virtual void ModelListener::setTemperature(int)	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:19:18:virtual void ModelListener::setCO(int)	1
+../TouchGFX/gui/include/gui/model/ModelListener.hpp:20:18:virtual void ModelListener::updateTime(char, char, char)	1
+../TouchGFX/gui/include/gui/clockscreen_screen/ClockScreenPresenter.hpp:28:13:ClockScreenPresenter::~ClockScreenPresenter()	1
+../TouchGFX/gui/include/gui/clockscreen_screen/ClockScreenPresenter.hpp:28:13:virtual ClockScreenPresenter::~ClockScreenPresenter()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenPresenter.cpp:4:1:ClockScreenPresenter::ClockScreenPresenter(ClockScreenView&)	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenPresenter.cpp:10:6:virtual void ClockScreenPresenter::activate()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenPresenter.cpp:15:6:virtual void ClockScreenPresenter::deactivate()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenPresenter.cpp:19:6:virtual void ClockScreenPresenter::updateTime(char, char, char)	1

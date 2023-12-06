@@ -1,0 +1,13 @@
+../Core/Src/LM75.c:5:7:LM75_Temperature_9Bit_ReadReg	2
+../Core/Src/LM75.c:20:7:LM75_Temperature_11Bit_ReadReg	2
+../Core/Src/LM75.c:34:13:LM75_TemperatureWriteReg	4
+../Core/Src/LM75.c:48:16:LM75_ReadConfig	1
+../Core/Src/LM75.c:56:6:LM75_SleepMode	2
+../Core/Src/LM75.c:74:6:LM75_ComparatorOrInterruptMode	2
+../Core/Src/LM75.c:92:6:LM75_LevelOsMode	2
+../Core/Src/LM75.c:109:6:LM75_FaultQueueMode	5
+../Core/Src/LM75.c:135:7:LM75_TemperatureRead	1
+../Core/Src/LM75.c:146:7:LM75_THYST_Read	1
+../Core/Src/LM75.c:151:7:LM75_TOS_Read	1
+../Core/Src/LM75.c:156:6:LM75_THYST_Write	1
+../Core/Src/LM75.c:162:6:LM75_TOS_Write	1

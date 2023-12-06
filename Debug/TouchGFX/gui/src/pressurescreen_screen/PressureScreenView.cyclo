@@ -1,0 +1,10 @@
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	1
+../TouchGFX/gui/include/gui/pressurescreen_screen/PressureScreenView.hpp:11:13:PressureScreenView::~PressureScreenView()	1
+../TouchGFX/gui/include/gui/pressurescreen_screen/PressureScreenView.hpp:11:13:virtual PressureScreenView::~PressureScreenView()	1
+../TouchGFX/gui/src/pressurescreen_screen/PressureScreenView.cpp:3:1:PressureScreenView::PressureScreenView()	1
+../TouchGFX/gui/src/pressurescreen_screen/PressureScreenView.cpp:8:6:virtual void PressureScreenView::setupScreen()	1
+../TouchGFX/gui/src/pressurescreen_screen/PressureScreenView.cpp:13:6:virtual void PressureScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/pressurescreen_screen/PressureScreenView.cpp:18:6:virtual void PressureScreenView::setPressure(int)	1

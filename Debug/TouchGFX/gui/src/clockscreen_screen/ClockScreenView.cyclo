@@ -1,0 +1,10 @@
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:104:18:virtual void touchgfx::Screen::afterTransition()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:115:18:virtual void touchgfx::Screen::tearDownScreen()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:144:18:virtual void touchgfx::Screen::handleTickEvent()	1
+../Middlewares/ST/touchgfx/framework/include/touchgfx/Screen.hpp:154:18:virtual void touchgfx::Screen::handleKeyEvent(uint8_t)	1
+../TouchGFX/gui/include/gui/clockscreen_screen/ClockScreenView.hpp:11:13:ClockScreenView::~ClockScreenView()	1
+../TouchGFX/gui/include/gui/clockscreen_screen/ClockScreenView.hpp:11:13:virtual ClockScreenView::~ClockScreenView()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenView.cpp:3:1:ClockScreenView::ClockScreenView()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenView.cpp:8:6:virtual void ClockScreenView::setupScreen()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenView.cpp:13:6:virtual void ClockScreenView::tearDownScreen()	1
+../TouchGFX/gui/src/clockscreen_screen/ClockScreenView.cpp:18:6:virtual void ClockScreenView::updateTime(char, char, char)	1
