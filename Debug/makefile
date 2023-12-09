@@ -28,28 +28,6 @@ RM := rm -rf
 -include TouchGFX/generated/gui_generated/src/common/subdir.mk
 -include TouchGFX/generated/gui_generated/src/clockscreen_screen/subdir.mk
 -include TouchGFX/generated/fonts/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/hal/simulator/sdl2/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/driver/touch/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/simulator/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/temperaturescreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/pressurescreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/model/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/mainscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/coscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/common/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/clockscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/texts/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src/video/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__generated/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/images/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/temperaturescreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/pressurescreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/mainscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/coscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/common/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/clockscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/fonts/src/subdir.mk
 -include TouchGFX/App/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
@@ -63,6 +41,9 @@ endif
 ifneq ($(strip $(C++_DEPS)),)
 -include $(C++_DEPS)
 endif
+ifneq ($(strip $(CCM_DEPS)),)
+-include $(CCM_DEPS)
+endif
 ifneq ($(strip $(C_UPPER_DEPS)),)
 -include $(C_UPPER_DEPS)
 endif
@@ -74,6 +55,12 @@ ifneq ($(strip $(S_DEPS)),)
 endif
 ifneq ($(strip $(S_UPPER_DEPS)),)
 -include $(S_UPPER_DEPS)
+endif
+ifneq ($(strip $(CXXM_DEPS)),)
+-include $(CXXM_DEPS)
+endif
+ifneq ($(strip $(C++M_DEPS)),)
+-include $(C++M_DEPS)
 endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
@@ -117,8 +104,8 @@ all: main-build
 main-build: f411ceu.elf secondary-outputs
 
 # Tool invocations
-f411ceu.elf f411ceu.map: $(OBJS) $(USER_OBJS) C:\Users\Admin\Downloads\f411ceu\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "f411ceu.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Admin\Downloads\f411ceu\STM32F411CEUX_FLASH.ld" -Wl,-Map="f411ceu.map" -Wl,--gc-sections -static -L"C:\Users\Admin\Downloads\f411ceu\Middlewares\ST\touchgfx\lib\core\cortex_m4f\gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+f411ceu.elf f411ceu.map: $(OBJS) $(USER_OBJS) D:\Github\DuyKhang0709\f411ceu\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "f411ceu.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Github\DuyKhang0709\f411ceu\STM32F411CEUX_FLASH.ld" -Wl,-Map="f411ceu.map" -Wl,--gc-sections -static -L"D:\Github\DuyKhang0709\f411ceu\Middlewares\ST\touchgfx\lib\core\cortex_m4f\gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
