@@ -77,7 +77,7 @@ float T;
 //  float TOS;
 
 uint16_t doadc = 0;
-float voltage ;
+float sensor_voltage ;
 float RSdivRL;
 
 float Temperature, Pressure, Humidity;
@@ -113,15 +113,20 @@ float getAdcVoltage(void)
   if(adc_complete == 1)
   {
     doadc = average_adc1.in0 ;
-    voltage = ((float)doadc * 3.3) / 4096;
+    //Requires 2 resistors in series to divide the voltage so that the voltage across the 2 resistors is 5Volt,
+    //then the output voltage between the 2 resistors is 3v3
+    //recommend 9K1 and 4K7 resistors 5V -> 3.2971V
+    sensor_voltage = ((float)doadc * 3.3) / 4096;
+    sensor_voltage = sensor_voltage*(9.1 + 4.7)/9.1;//
   }
-  return voltage;
+  return sensor_voltage;
 }
 
 float getGasConcentration(void)
 {
   float Vrl = getAdcVoltage();
-  RSdivRL = (5.0 - Vrl)/Vrl;
+  RSdivRL = (5.0 - Vrl)/Vrl;// omit *RL
+  RSdivRL = RSdivRL/9.9;// The ratio of RS/R0 is 9.9 in LPG gas from Graph (Found using WebPlotDigitizer)
   return RSdivRL;
 }
 
@@ -227,7 +232,9 @@ void ADC1_DMA2_InitMore(void)
   */
 void AdcDmaTransferComplete_Callback()
 {
-  static v_u32 sum_adc1_in0 = 0, sum_adc1_in1 = 0, i = 0;
+  static v_u32 sum_adc1_in0 = 0;
+  //static v_u32 sum_adc1_in1 = 0;
+  static v_u32 i = 0;
 
   sum_adc1_in0 += adc1.in0;
   //sum_adc1_in1 += adc1.in1;
