@@ -22,6 +22,8 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "extern_variables_functions.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,7 +191,8 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+  Counter_0 += 1;
+  Counter_1 += 1;
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -212,6 +215,28 @@ void DMA1_Stream4_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream4_IRQn 1 */
 
   /* USER CODE END DMA1_Stream4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles ADC1 global interrupt.
+  */
+void ADC_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC_IRQn 0 */
+
+  /* USER CODE END ADC_IRQn 0 */
+
+  /* USER CODE BEGIN ADC_IRQn 1 */
+  /* Check whether ADC group regular overrun caused the ADC interruption */
+  if(LL_ADC_IsActiveFlag_OVR(ADC1) != 0)
+  {
+    /* Clear flag ADC group regular overrun */
+    LL_ADC_ClearFlag_OVR(ADC1);
+
+    /* Call interruption treatment function */
+    //AdcGrpRegularOverrunError_Callback();
+  }
+  /* USER CODE END ADC_IRQn 1 */
 }
 
 /**
@@ -254,6 +279,39 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream0 global interrupt.
+  */
+void DMA2_Stream0_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
+  /* Check whether DMA transfer complete caused the DMA interruption */
+  if(LL_DMA_IsActiveFlag_TC0(DMA2) == 1)
+  {
+    /* Clear flag DMA transfer complete */
+    LL_DMA_ClearFlag_TC0(DMA2);
+
+    /* Call interruption treatment function */
+    AdcDmaTransferComplete_Callback();
+  }
+
+
+  /* Check whether DMA transfer error caused the DMA interruption */
+  if(LL_DMA_IsActiveFlag_TE0(DMA2) == 1)
+  {
+    /* Clear flag DMA transfer error */
+    LL_DMA_ClearFlag_TE0(DMA2);
+
+    /* Call interruption treatment function */
+    //AdcDmaTransferError_Callback();
+  }
+  /* USER CODE END DMA2_Stream0_IRQn 0 */
+
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream0_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

@@ -29,13 +29,22 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
+#include "stm32f4xx_ll_adc.h"
+#include "stm32f4xx_ll_bus.h"
+#include "stm32f4xx_ll_cortex.h"
+#include "stm32f4xx_ll_rcc.h"
+#include "stm32f4xx_ll_system.h"
+#include "stm32f4xx_ll_utils.h"
+#include "stm32f4xx_ll_pwr.h"
+#include "stm32f4xx_ll_gpio.h"
+#include "stm32f4xx_ll_dma.h"
+
+#include "stm32f4xx_ll_exti.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "z_displ_ILI9XXX.h"
-#include "z_touch_XPT2046.h"
-#include "LM75.h"
-#include <ds1307.h>
-#include <BMP280.h>
+#include "extern_variables_functions_for_h.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -45,7 +54,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-//extern float getGasConcentration();
+
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -63,6 +72,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LED_BOARD_Pin GPIO_PIN_13
+#define LED_BOARD_GPIO_Port GPIOC
 #define TOUCH_CS_Pin GPIO_PIN_12
 #define TOUCH_CS_GPIO_Port GPIOB
 #define DISPL_SCK_Pin GPIO_PIN_13
