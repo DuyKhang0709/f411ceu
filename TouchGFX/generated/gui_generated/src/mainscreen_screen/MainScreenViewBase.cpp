@@ -52,25 +52,25 @@ MainScreenViewBase::MainScreenViewBase() :
     CarSystem_text.setTypedText(touchgfx::TypedText(T___SINGLEUSE_229S));
     add(CarSystem_text);
 
-    Clock_text.setXY(54, 83);
+    Clock_text.setXY(54, 141);
     Clock_text.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     Clock_text.setLinespacing(0);
     Clock_text.setTypedText(touchgfx::TypedText(T___SINGLEUSE_L128));
     add(Clock_text);
 
-    Pressure_text.setXY(37, 143);
+    Pressure_text.setXY(37, 83);
     Pressure_text.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     Pressure_text.setLinespacing(0);
     Pressure_text.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NCPT));
     add(Pressure_text);
 
-    Temperature_text.setXY(176, 83);
+    Temperature_text.setXY(176, 141);
     Temperature_text.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     Temperature_text.setLinespacing(0);
     Temperature_text.setTypedText(touchgfx::TypedText(T___SINGLEUSE_LIND));
     add(Temperature_text);
 
-    CO_text.setXY(200, 141);
+    CO_text.setXY(200, 83);
     CO_text.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     CO_text.setLinespacing(0);
     CO_text.setTypedText(touchgfx::TypedText(T___SINGLEUSE_A6VB));

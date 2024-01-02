@@ -13,7 +13,7 @@
 
 
 #include "main.h"
-
+extern uint32_t counter;
 extern SPI_HandleTypeDef DISPL_SPI_PORT;
 
 #ifdef DISPLAY_DIMMING_MODE
@@ -1188,6 +1188,12 @@ void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint1
 void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef * htim){
 	if (htim==&TGFX_T){
 		  touchgfxSignalVSync();
+	}
+	if(htim->Instance == TIM9){
+		HAL_GPIO_TogglePin(BUZZER_1_GPIO_Port, BUZZER_1_Pin);
+	}
+	if(htim->Instance == TIM10){
+		counter++;
 	}
 }
 #endif //DISPLAY_USING_TOUCHGFX

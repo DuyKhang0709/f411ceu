@@ -17,10 +17,12 @@ public:
 
     virtual void changeToStartScreen()
     {
-        gotoPressureScreenScreenNoTransition();
+        gotoMainScreenScreenNoTransition();
     }
 
     // MainScreen
+    void gotoMainScreenScreenNoTransition();
+
     void gotoMainScreenScreenSlideTransitionWest();
 
     // ClockScreen
@@ -30,8 +32,6 @@ public:
     void gotoTemperatureScreenScreenSlideTransitionEast();
 
     // PressureScreen
-    void gotoPressureScreenScreenNoTransition();
-
     void gotoPressureScreenScreenSlideTransitionEast();
 
     // COScreen
@@ -43,6 +43,8 @@ protected:
     Model& model;
 
     // MainScreen
+    void gotoMainScreenScreenNoTransitionImpl();
+
     void gotoMainScreenScreenSlideTransitionWestImpl();
 
     // ClockScreen
@@ -52,8 +54,6 @@ protected:
     void gotoTemperatureScreenScreenSlideTransitionEastImpl();
 
     // PressureScreen
-    void gotoPressureScreenScreenNoTransitionImpl();
-
     void gotoPressureScreenScreenSlideTransitionEastImpl();
 
     // COScreen

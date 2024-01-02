@@ -19,9 +19,9 @@ protected:
     float Pressure_Val;
     int Temperature_Val;
     float CO_Val;
-    unsigned char Hour;
-    unsigned char Minute;
-    unsigned char Second;
+    unsigned char Hour ;
+    unsigned char Minute ;
+    unsigned char Second ;
     int tickCounter;
 };
 

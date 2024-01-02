@@ -12,4 +12,4 @@
 ../Core/Src/z_displ_ILI9XXX.c:1089:11:Displ_BackLight	12
 ../Core/Src/z_displ_ILI9XXX.c:1158:5:touchgfxDisplayDriverTransmitActive	1
 ../Core/Src/z_displ_ILI9XXX.c:1172:6:touchgfxDisplayDriverTransmitBlock	1
-../Core/Src/z_displ_ILI9XXX.c:1188:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/z_displ_ILI9XXX.c:1188:6:HAL_TIM_PeriodElapsedCallback	4

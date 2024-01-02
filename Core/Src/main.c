@@ -17,17 +17,19 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-
 #include "main.h"
 #include "app_touchgfx.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+extern	uint8_t hour ;
+extern	uint8_t minute ;
+extern	uint8_t second ;
 extern float  Pa ;
-//extern float T;
-//	float THYST;
-//	float TOS;
+extern float T;
+float THYST;
+float TOS;
+uint32_t counter;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,16 +38,13 @@ extern float  Pa ;
 	  		uint8_t month ;
 	  		uint16_t year ;
 	  		uint8_t dow ;
-	  		uint8_t hour ;
-	  		uint8_t minute ;
-	  		uint8_t second ;
 	  		int8_t zone_hr ;
 	  		uint8_t zone_min ;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+typedef enum {Mode1,Mode20,Mode21,Mode30,Mode31}mode;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,18 +58,18 @@ ADC_HandleTypeDef hadc1;
 CRC_HandleTypeDef hcrc;
 
 I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c2;
 
 SPI_HandleTypeDef hspi2;
 DMA_HandleTypeDef hdma_spi2_tx;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim9;
+TIM_HandleTypeDef htim10;
 
 /* USER CODE BEGIN PV */
-//float Vc = 3.3;
-//int adcRange = 4096;
-//extern float RSdivRL;
-//extern int temp;
+
 static const uint8_t BMP_ADDR = 0xEC; // Use 8-bit address --> 0x76<<1 = 0xEC
 /* USER CODE END PV */
 
@@ -84,6 +83,9 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_I2C2_Init(void);
+static void MX_TIM9_Init(void);
+static void MX_TIM10_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -93,7 +95,7 @@ static void MX_I2C1_Init(void);
 
 uint16_t doadc = 0;
 float voltage ;
-float RSdivRL;
+extern float RSdivRL;
 float getAdcVoltage(ADC_HandleTypeDef* hadc1) {
 	HAL_ADC_Start(hadc1);
 	doadc = HAL_ADC_GetValue(hadc1);
@@ -106,11 +108,11 @@ float getAdcVoltage(ADC_HandleTypeDef* hadc1) {
 	HAL_ADC_Start(hadc1);
 	float Vrl = getAdcVoltage(hadc1);
     RSdivRL = (5.0 - Vrl)/Vrl;
+    log(RSdivRL);
 	return RSdivRL;
 }
  float Temperature, Pressure, Humidity;
-// float Pa;
-// extern float BMP280_Measure();
+
 /* USER CODE END 0 */
 
 /**
@@ -148,45 +150,77 @@ int main(void)
   MX_TIM3_Init();
   MX_ADC1_Init();
   MX_I2C1_Init();
+  MX_I2C2_Init();
+  MX_TIM9_Init();
+  MX_TIM10_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
+  mode mode_temp;
   Displ_Init(Displ_Orientat_0);			// initialize display controller - set orientation parameter as per TouchGFX setup
   Displ_BackLight('I');  					// initialize backlight
   HAL_TIM_Base_Start_IT(&TGFX_T);			// start TouchGFX tick timer
-//	    THYST = LM75_THYST_Read();
-//	    TOS = LM75_TOS_Read();
-//	    DS1307_Init(&hi2c1);
-//	  	DS1307_SetTimeZone(+8, 00);
-//	  	DS1307_SetDate(30);
-//	  	DS1307_SetMonth(11);
-//	  	DS1307_SetYear(2023);
-//	  	DS1307_SetDayOfWeek(4);
-//	  	DS1307_SetHour(11);
-//	  	DS1307_SetMinute(16);
-//	  	DS1307_SetSecond(30);
-        int ret = BMP280_Config(OSRS_16, OSRS_16, OSRS_OFF, MODE_NORMAL, T_SB_1000, IIR_16);
-        HAL_Delay(500);
+	    THYST = LM75_THYST_Read();
+	    TOS = LM75_TOS_Read();
+	    DS1307_Init(&hi2c2);
+	  	DS1307_SetTimeZone(+8, 00);
+	  	DS1307_SetDate(30);
+	  	DS1307_SetMonth(11);
+	  	DS1307_SetYear(2023);
+	  	DS1307_SetDayOfWeek(4);
+	  	DS1307_SetHour(11);
+	  	DS1307_SetMinute(16);
+	  	DS1307_SetSecond(30);
+	   int ret = BMP280_Config(OSRS_16, OSRS_16, OSRS_OFF, MODE_NORMAL, T_SB_1000, IIR_16);
+	  	HAL_Delay(500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  T= LM75_TemperatureRead();
-//	  HAL_Delay (1000);
-//	  getGasConcentration(&hadc1);
-//	  HAL_Delay(500);
-//	  date = DS1307_GetDate();
-//	  month = DS1307_GetMonth();
-//	  year = DS1307_GetYear();
-//	  dow = DS1307_GetDayOfWeek();
-//	  hour   = DS1307_GetHour();
-//	  minute = DS1307_GetMinute();
-//	  second = DS1307_GetSecond();
-//	  minute = DS1307_GetMinute();
-//	  hour   = DS1307_GetHour();
+	  T= LM75_TemperatureRead();
+	  if(mode_temp==Mode1){
+		  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_RESET);
+		  HAL_TIM_Base_Stop_IT(&htim9);
+		  HAL_TIM_Base_Stop_IT(&htim10);
+		  counter=0;
+		  if(T>27)	mode_temp=Mode20;
+	  }
+	  else if(mode_temp == Mode20){
+		  HAL_TIM_Base_Start_IT(&htim10);
+		  mode_temp=Mode21;
+	  }
+	  else if(mode_temp == Mode21){
+	  	  if(T<27)	mode_temp=Mode1;
+	  	  else if ( T>=27 && counter >=800){
+	 	  mode_temp=Mode30;
+	  	}
+	  	else mode_temp=Mode21;
+	  }
+	  else if(mode_temp==Mode30){
+		  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_SET);
+		  HAL_TIM_Base_Start_IT(&htim9);
+		  mode_temp=Mode31;
+
+	  }
+	  else if(mode_temp==Mode31){
+		  if(T<27)	mode_temp=Mode1;
+		  else mode_temp=Mode31;
+	  }
+	  getGasConcentration(&hadc1);
 	  Pa = BMP280_Measure();
-	  HAL_Delay(500);
+	  if( Pa > 96000){
+		  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+		  HAL_TIM_Base_Start_IT(&htim9);
+	  }
+	  else {
+		  HAL_TIM_Base_Stop_IT(&htim9);
+	  }
+
+	  hour   = DS1307_GetHour();
+	  minute = DS1307_GetMinute();
+	  second = DS1307_GetSecond();
+
 
     /* USER CODE END WHILE */
 
@@ -194,6 +228,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
   }
+
   /* USER CODE END 3 */
 }
 
@@ -281,7 +316,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
-  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -351,6 +386,40 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.ClockSpeed = 400000;
+  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
 
 }
 
@@ -487,6 +556,75 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief TIM9 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM9_Init(void)
+{
+
+  /* USER CODE BEGIN TIM9_Init 0 */
+
+  /* USER CODE END TIM9_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+
+  /* USER CODE BEGIN TIM9_Init 1 */
+
+  /* USER CODE END TIM9_Init 1 */
+  htim9.Instance = TIM9;
+  htim9.Init.Prescaler = 49;
+  htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim9.Init.Period = 999;
+  htim9.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim9.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim9) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim9, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM9_Init 2 */
+
+  /* USER CODE END TIM9_Init 2 */
+
+}
+
+/**
+  * @brief TIM10 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM10_Init(void)
+{
+
+  /* USER CODE BEGIN TIM10_Init 0 */
+
+  /* USER CODE END TIM10_Init 0 */
+
+  /* USER CODE BEGIN TIM10_Init 1 */
+
+  /* USER CODE END TIM10_Init 1 */
+  htim10.Instance = TIM10;
+  htim10.Init.Prescaler = 4999;
+  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim10.Init.Period = 199;
+  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM10_Init 2 */
+
+  /* USER CODE END TIM10_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -514,9 +652,16 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, LED_4_Pin|LED_5_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BUZZER_1_GPIO_Port, BUZZER_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);
@@ -526,6 +671,20 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, DISPL_RST_Pin|DISPL_DC_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : LED_4_Pin LED_5_Pin */
+  GPIO_InitStruct.Pin = LED_4_Pin|LED_5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUZZER_1_Pin */
+  GPIO_InitStruct.Pin = BUZZER_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BUZZER_1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : TOUCH_CS_Pin */
   GPIO_InitStruct.Pin = TOUCH_CS_Pin;
@@ -563,6 +722,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 
 /* USER CODE END 4 */
 

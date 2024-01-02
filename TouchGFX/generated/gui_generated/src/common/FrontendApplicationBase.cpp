@@ -40,6 +40,17 @@ FrontendApplicationBase::FrontendApplicationBase(Model& m, FrontendHeap& heap)
 
 // MainScreen
 
+void FrontendApplicationBase::gotoMainScreenScreenNoTransition()
+{
+    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoMainScreenScreenNoTransitionImpl);
+    pendingScreenTransitionCallback = &transitionCallback;
+}
+
+void FrontendApplicationBase::gotoMainScreenScreenNoTransitionImpl()
+{
+    touchgfx::makeTransition<MainScreenView, MainScreenPresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+}
+
 void FrontendApplicationBase::gotoMainScreenScreenSlideTransitionWest()
 {
     transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoMainScreenScreenSlideTransitionWestImpl);
@@ -78,17 +89,6 @@ void FrontendApplicationBase::gotoTemperatureScreenScreenSlideTransitionEastImpl
 }
 
 // PressureScreen
-
-void FrontendApplicationBase::gotoPressureScreenScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplicationBase::gotoPressureScreenScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotoPressureScreenScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<PressureScreenView, PressureScreenPresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
 
 void FrontendApplicationBase::gotoPressureScreenScreenSlideTransitionEast()
 {

@@ -58,24 +58,6 @@ void TrimRead(void)
 	dig_H6 = (trimdata[31]);
 }
 
-/* Configuration for the BMP280
-
- * @osrs is the oversampling to improve the accuracy
- *       if osrs is set to OSRS_OFF, the respective measurement will be skipped
- *       It can be set to OSRS_1, OSRS_2, OSRS_4, etc. Check the header file
- *
- * @mode can be used to set the mode for the device
- *       MODE_SLEEP will put the device in sleep
- *       MODE_FORCED device goes back to sleep after one measurement. You need to use the BMP280_WakeUP() function before every measurement
- *       MODE_NORMAL device performs measurement in the normal mode. Check datasheet page no 16
- *
- * @t_sb is the standby time. The time sensor waits before performing another measurement
- *       It is used along with the normal mode. Check datasheet page no 16 and page no 30
- *
- * @filter is the IIR filter coefficients
- *         IIR is used to avoid the short term fluctuations
- *         Check datasheet page no 18 and page no 30
- */
 
 int BMP280_Config (uint8_t osrs_t, uint8_t osrs_p, uint8_t osrs_h, uint8_t mode, uint8_t t_sb, uint8_t filter)
 {
@@ -185,11 +167,7 @@ void BMP280_WakeUP(void)
 	HAL_Delay (100);
 }
 
-/************* COMPENSATION CALCULATION AS PER DATASHEET (page 25) **************************/
 
-/* Returns temperature in DegC, resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
-   t_fine carries fine temperature as global value
-*/
 int32_t t_fine;
 int32_t BMP280_compensate_T_int32(int32_t adc_T)
 {
